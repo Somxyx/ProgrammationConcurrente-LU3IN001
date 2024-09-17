@@ -118,18 +118,6 @@ public class MatriceEntiere {
 	}
 	
 	
-	public MatriceEntiere produitParScalaire(int scalaire) {
-		MatriceEntiere res = new MatriceEntiere(this.nbLignes(), this.nbColonnes());
-		for (int i = 0 ; i < res.nbLignes() ; i++) {
-			for (int j = 0 ; j < res.nbColonnes() ; j++) {
-				res.matrice[i][j] = this.matrice[i][j] * scalaire;
-			}
-		}
-		return res;
-	}
-	
-	
-	
 	public MatriceEntiere transposee() {
 		MatriceEntiere mat = new MatriceEntiere(this.nbColonnes(),this.nbLignes());
 			
