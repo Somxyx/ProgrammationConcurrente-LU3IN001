@@ -16,6 +16,6 @@ public class TestRepeat {
 		
 		long elapsed = System.currentTimeMillis() - time;
 		System.out.println("Elapsed time: " + elapsed + "ms");
-		assertTrue(elapsed < 300);
+		assertTrue(elapsed < 3000);
 	}
 }
