@@ -5,6 +5,30 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+class WordCounter implements Runnable {
+	private String file;
+	int [] wordCount;
+	private int index;
+
+	public WordCounter (String file, int val, int[] wordCount) {
+		this.file=file;
+		this.wordCount = wordCount;
+		this.index = val;
+	}
+
+	@Override
+	public void run() {
+		try {
+			wordCount[index] = WordCount.countWords(file);
+//			System.out.println("nombre mots : "+ countWords(file));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}
+
 public class WordCount {
 
 	public static int countWords(String filename) throws IOException {
@@ -18,18 +42,25 @@ public class WordCount {
 			return total;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
 		int [] wordCount = new int[args.length];
-		for (int i = 0; i < args.length; i++) {
-			try {
-				wordCount[i] = countWords(args[i]);
-			} catch (IOException e) {
-				System.err.println("Error reading file: " + args[i]);
-				e.printStackTrace();
-			}
-		}
+		String file;
+				for (int i = 0; i < args.length; i++) {
+					Thread t1 = new Thread(new WordCounter(file,i,args[i]));
+					t1.start();
+					
+					try {
+						wordCount[i] = countWords(args[i]);
+					} catch (IOException e) {
+						System.err.println("Error reading file: " + args[i]);
+						e.printStackTrace();
+					}
+				}
+
+
+
 		System.out.println("Word count:" + Arrays.toString(wordCount));
 		int total = 0;
 		for (int count : wordCount) {
@@ -38,4 +69,5 @@ public class WordCount {
 		System.out.println("Total word count:" + total);
 		System.out.println("Total time "+(System.currentTimeMillis()-startTime) + " ms");
 	}
+
 }
