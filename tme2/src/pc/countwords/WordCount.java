@@ -38,6 +38,15 @@ public class WordCount {
 			t.start();
 		}
 		
+		for(Thread t : th) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		System.out.println("Word count:" + Arrays.toString(WordCounter.wordCount));
 		int total = 0;
 		
