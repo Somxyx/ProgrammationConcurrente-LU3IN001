@@ -100,13 +100,13 @@ public class MatriceEntiere {
 		 }
 	
 	
-	public MatriceEntiere produitMT(MatriceEntiere m) throws TaillesNonConcordantesException{
-		if(this.nbColonnes()!= ( m.nbLignes())){
+	public MatriceEntiere produit (MatriceEntiere m) throws TaillesNonConcordantesException{
+		if(this.nbColonnes()!= (m.nbLignes())){
             throw new TaillesNonConcordantesException("dimensions nonconcordantes");
         }
 		
 		// Crée une nouvelle matrice pour stocker le résultat
-		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbColonnes());
+		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),m.nbColonnes());
 		 
 		// Calcule le produit matriciel
 		for(int i=0; i<this.nbLignes();i++) {
@@ -135,20 +135,65 @@ public class MatriceEntiere {
 	
 	public MatriceEntiere produitParScalaireMT(int n) {
 			MatriceEntiere res = new MatriceEntiere(this.nbLignes(), this.nbColonnes());
-			
+		
 			class ProduitParLigne extends Thread{
 				private int l;
 				
-				public 
-			}
-				for (int i = 0 ; i < res.nbLignes() ; i++) {
-					for (int j = 0 ; j < res.nbColonnes() ; j++) {
-						res.matrice[i][j] = this.matrice[i][j] * n;
-					}
+				public ProduitParLigne(int l) {
+					this.l=l;
 				}
-				return res;
+				
+				public void run() {
+					for (int j = 0; j < res.nbColonnes(); j++) {
+	                    res.matrice[l][j] = matrice[l][j] * n;
+	                    
+	                }
+				}
+			}
+			
+	        Thread[] th = new ProduitParLigne[res.nbLignes()];
+	        for (int i = 0; i < res.nbLignes(); i++) {
+	            th[i] = new ProduitParLigne(i);
+	            th[i].start();
+	        }
+	        return res;
 		}
 	
+	
+	public MatriceEntiere produitMT(MatriceEntiere m)throws TaillesNonConcordantesException{
+		if(this.nbColonnes()!= ( m.nbLignes())) throw new TaillesNonConcordantesException("dimensions nonconcordantes");
+        
+		MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),m.nbColonnes());
+		
+		class ProduitParCellule implements Runnable{
+			private int l;
+			private int c; 
+			
+			public ProduitParCellule(int l, int c) {
+				this.l=l;
+				this.c=c;
+			}
+			
+			public void run() {
+				int s = 0;
+                for (int k = 0; k < matrice[0].length; k++) {
+                    s += matrice[l][k] * m.matrice[k][c];
+                }
+                mat.matrice[l][c] = s;
+			}
+		
+		}
+		
+			Thread[][] th = new Thread[this.nbLignes()][m.nbColonnes()];
+
+	        for (int i = 0; i < this.nbLignes(); i++) {
+	            for (int j = 0; j < m.nbColonnes(); j++) {
+	                th[i][j] = new Thread(new ProduitParCellule(i, j));
+	                th[i][j].start();
+	            }
+	        }
+		return mat;	
+	}
 }
 
 
