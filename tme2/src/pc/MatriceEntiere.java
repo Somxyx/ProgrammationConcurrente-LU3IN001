@@ -1,5 +1,6 @@
 package pc;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -99,12 +100,12 @@ public class MatriceEntiere {
 		 }
 	
 	
-	public MatriceEntiere produit(MatriceEntiere m) throws TaillesNonConcordantesException{
+	public MatriceEntiere produitMT(MatriceEntiere m) throws TaillesNonConcordantesException{
 		if(this.nbColonnes()!= ( m.nbLignes())){
             throw new TaillesNonConcordantesException("dimensions nonconcordantes");
         }
 		
-		// Crée une nouvelle matrice pour stocker le résultat de l'addition
+		// Crée une nouvelle matrice pour stocker le résultat
 		 MatriceEntiere mat = new MatriceEntiere(this.nbLignes(),this.nbColonnes());
 		 
 		// Calcule le produit matriciel
@@ -130,6 +131,18 @@ public class MatriceEntiere {
 		}
 		return mat;
 	}
+	
+	
+	public MatriceEntiere produitParScalaireMT(int n) {
+			MatriceEntiere res = new MatriceEntiere(this.nbLignes(), this.nbColonnes());
+			
+			for (int i = 0 ; i < res.nbLignes() ; i++) {
+				for (int j = 0 ; j < res.nbColonnes() ; j++) {
+					res.matrice[i][j] = this.matrice[i][j] * n;
+				}
+			}
+			return res;
+		}
 	
 }
 

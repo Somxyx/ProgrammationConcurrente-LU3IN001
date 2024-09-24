@@ -12,6 +12,7 @@ public class TestRepeat {
 	public void testComplexity() {
 		long time = System.currentTimeMillis();
 		
+		@SuppressWarnings("unused")
 		String rep = Repeat.repeat('a', 100000);
 		
 		long elapsed = System.currentTimeMillis() - time;
