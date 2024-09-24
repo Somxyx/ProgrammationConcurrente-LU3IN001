@@ -1,5 +1,8 @@
 package pc;
 
-public class Produit {
-
+public class Produit implements Runnable {
+	
+	public void run(){
+		
+	}
 }

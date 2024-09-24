@@ -136,12 +136,17 @@ public class MatriceEntiere {
 	public MatriceEntiere produitParScalaireMT(int n) {
 			MatriceEntiere res = new MatriceEntiere(this.nbLignes(), this.nbColonnes());
 			
-			for (int i = 0 ; i < res.nbLignes() ; i++) {
-				for (int j = 0 ; j < res.nbColonnes() ; j++) {
-					res.matrice[i][j] = this.matrice[i][j] * n;
-				}
+			class ProduitParLigne extends Thread{
+				private int l;
+				
+				public 
 			}
-			return res;
+				for (int i = 0 ; i < res.nbLignes() ; i++) {
+					for (int j = 0 ; j < res.nbColonnes() ; j++) {
+						res.matrice[i][j] = this.matrice[i][j] * n;
+					}
+				}
+				return res;
 		}
 	
 }
