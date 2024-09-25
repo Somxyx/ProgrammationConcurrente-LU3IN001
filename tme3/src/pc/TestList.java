@@ -50,29 +50,75 @@ public class TestList {
 		long startTime = System.currentTimeMillis();
 
 		List<Thread> threads = new ArrayList<>();
-
-		// Create threads to add elements to the list
-
+		
 		// Create threads to check contains for non-existent elements
-
+		for(int i=0; i<N;i++) {
+			threads.add(new Thread(new AddTask1(M, list)));
+		}
+		
+		for(int i=0; i<N;i++) {
+			threads.add(new Thread(new ContainsTask(M, list)));
+		}		
+		
+		
 		// Start all threads
-
+		for(Thread t : threads) {
+			t.start();
+		}
+		
 		// Wait for all threads to finish
-
+		for(Thread t : threads) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
 		// Check that the list size is N * M
-		// assertEquals("List size should be N * M", N * M, list.size());
-
+		assertEquals(list.size(), N*M);	
+		assertEquals("List size should be N * M", N * M, list.size());
+		
 		long endTime = System.currentTimeMillis();
 		System.out.println("Test completed in " + (endTime - startTime) + " milliseconds");
 	}
 
+	
 	// TODO support pour les threads
-	static class AddTask implements Runnable {
-
-		@Override
-		public void run() {
+		static class AddTask1 implements Runnable {
+			private int M; 
+			private IList<String> list;
+			
+			public AddTask1(int M, IList<String> list) {
+				this.M=M;
+				this.list=list;
+			}
+			
+			@Override
+			public void run() {
+				for(int i=0; i<M;i++) { 
+					list.add("Derya et Laulau");
+				}
+			}
 		}
-	}
-
+		
+		static class ContainsTask implements Runnable {
+			private int M; 
+			private IList<String> list;
+			
+			public ContainsTask(int M, IList<String> list) {
+				this.M=M;
+				this.list=list;
+			}
+			
+			@Override
+			public void run() {
+				for(int i=0; i<M;i++) { 
+					list.contains("toto");
+				}
+			}
+		}
 }
 
