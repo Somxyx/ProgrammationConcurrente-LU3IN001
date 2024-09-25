@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import pc.iter.SimpleList;
 import pc.rec.SimpleListRec;
+import pc.iter.SimpleListSync;
+import pc.rec.SimplelistRecSync;
 
 public class TestList {
 
@@ -20,10 +22,24 @@ public class TestList {
 
 		runConcurrentTest(list, 10, 1000);
 	}
+	
+	@Test 
+	public void testSimpleListSync() {
+		IList<String> list = new SimpleListSync<>();
+
+		runConcurrentTest(list, 10, 1000);
+	}
 
 	@Test
 	public void testSimpleListRec() {
 		IList<String> list = new SimpleListRec<>();
+
+		runConcurrentTest(list, 10, 1000);
+	}
+	
+	@Test
+	public void testSimpleListRecSync() {
+		IList<String> list = new SimplelistRecSync<>();
 
 		runConcurrentTest(list, 10, 1000);
 	}

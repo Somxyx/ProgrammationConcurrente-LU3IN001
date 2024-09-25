@@ -23,9 +23,9 @@ public class SimpleListFine<T> implements IList<T> {
 	@Override
 	public int size() {
 		int size = 0;
-		
+		Chainon<T> cur;
 		synchronized (this) {
-		Chainon<T> cur = head;
+			cur = head;
 		}
 		
 		while (cur != null) {
@@ -61,11 +61,19 @@ public class SimpleListFine<T> implements IList<T> {
 
 	@Override
 	public boolean contains(T element) {
-		for (Chainon<T> cur = head; cur != null; cur = cur.next) {
-			if (cur.data.equals(element)) {
-				return true;
-			}
-		}
+		Chainon<T> cur; 
+		synchronized (this) { 
+		cur = head; 
+		} 
+		
+		while (cur != null) { 
+			synchronized (cur) { 
+				if (cur.data.equals(element)) { 
+					return true; 
+				} 
+				cur = cur.next; 
+			} 
+		} 
 		return false;
 	}
 
@@ -81,5 +89,3 @@ public class SimpleListFine<T> implements IList<T> {
 
 }
 
-
-}
