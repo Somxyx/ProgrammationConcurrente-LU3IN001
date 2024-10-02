@@ -14,6 +14,7 @@ import pc.rec.SimpleListRec;
 import pc.iter.SimpleListSync;
 import pc.rec.SimplelistRecSync;
 
+@SuppressWarnings("unused")
 public class TestList {
 
 	@Test
